@@ -1,0 +1,51 @@
+<fieldset ng-form="itemForm">
+  <legend><h5><b>{{vm.painel.item.descricao}}</b></h5></legend>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="form-group" ng-class="{'has-error': itemForm.descricao.$invalid}">
+        <label>Descricao</label>
+        <input ng-model="vm.painel.item.descricao" required type="text" class="form-control" name="descricao" selectall>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-3">
+      <div class="form-group" ng-class="{'has-error': itemForm.quantidade.$invalid}">
+        <label>Quantidade</label>
+        <input ng-if="vm.painel.item.unidade == UnidadeEnum.KG" ng-model="vm.painel.item.quantidade" required type="text" class="form-control" ui-number-mask="3" name="quantidade" selectall>
+        <input ng-if="vm.painel.item.unidade == UnidadeEnum.UNITARIO" ng-model="vm.painel.item.quantidade" required type="text" class="form-control" ui-number-mask="0" name="quantidade" selectall>
+      </div>
+    </div>
+    <div class="col-xs-3">
+      <div class="form-group" ng-class="{'has-error': itemForm.preco.$invalid}">
+        <label>Preço</label>
+        <input ng-model="vm.painel.item.preco" required type="text" class="form-control" ui-number-mask name="preco" selectall>
+      </div>
+    </div>
+    <div class="col-xs-6">
+      <div class="form-group">
+        <label>Observações</label>
+        <input ng-model="vm.painel.item.observacoes" type="text" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="form-group clearfix" ng-show="vm.painel.item.opcoes">
+    <div class="btn-group center-block">
+      <label ng-repeat="opcao in vm.painel.item.opcoes" class="btn btn-sm btn-default" ng-class="{active:vm.painel.item.opcao == undefined && $first}" ng-model="vm.painel.item.opcao" uib-btn-radio="opcao" ng-click="vm.calcularItem()">{{opcao.descricao}}</label>
+    </div>
+  </div>
+  <div class="form-group clearfix" ng-show="vm.painel.item.adicionais">
+    <label for="adicionais">Adicionais</label>
+    <div class="input-group">
+      <div class="form-group" style="display: inline-flex">
+        <span ng-repeat="adicional in vm.painel.item.adicionais">
+            <input type="checkbox" ng-model="adicional.selecionado" class="minimal op" ng-click="vm.calcularItem()" icheck>
+            <label>{{adicional.descricao}}</label>
+        </span>
+      </div>
+    </div>
+  </div>
+  <button type="button" class="btn btn-sm btn-success" ng-class="{'disabled': !itemForm.$valid}" ng-click="vm.incluirItem()">Retornar para a listagem</button>
+  <button type="button" class="btn btn-sm btn-danger" ng-if="vm.painel.edicao" ng-click="vm.excluirItem()">Excluir item da listagem</button>
+  <button type="button" class="btn btn-sm btn-default" ng-click="vm.cancelarIncluirItem()">Cancelar</button>
+</fieldset>

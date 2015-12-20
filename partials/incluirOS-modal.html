@@ -1,0 +1,125 @@
+        <div ng-controller="IncluirOSController as vm">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Ordem de serviço <small>#{{vm.os.numero}}</small></h4>
+          </div>
+          <div class="modal-body">
+            <form role="form" novalidate name="form">
+              <div class="row">
+                <div class="col-xs-4">
+                  <div class="form-group">
+                    <label for="telefone">Telefone</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-phone"></i>
+                      </div>
+                      <input ng-model="vm.os.telefone" required type="text" class="form-control" data-inputmask="'mask': '99 9999-9999'" ctechtypeahead typeahead-source="vm.listarTelefones" typeahead-onselect="vm.selecionarTelefone">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-4">
+                  <div class="form-group">
+                    <label for="cliente">Cliente</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-user"></i>
+                      </div>
+                      <input ng-model="vm.os.cliente" required type="text" class="form-control" uib-typeahead="nome for nome in vm.listarNomesClientes($viewValue)" typeahead-on-select="vm.selecionarCliente($item, $model, $label)">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-4">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                      </div>
+                      <input ng-model="vm.os.email" type="text" class="form-control">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-7">
+                  <div class="form-group">
+                    <label for="endereco">Endereço</label>
+                    <div class="input-group">
+                      <div class="input-group-addon">
+                        <i class="fa fa-home"></i>
+                      </div>
+                      <input ng-model="vm.os.endereco" type="text" class="form-control">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-5">
+                  <div class="form-group">
+                    <div class="input-group" style="margin-top: 28px">
+                      <!-- checkbox -->
+                      <div class="form-group" style="display: inline-flex">
+                        <input ng-model="vm.os.coletar" type="checkbox" class="minimal" icheck>
+                        <label>Coletar</label>
+                        <input ng-model="vm.os.entregar" type="checkbox" class="minimal" icheck>
+                        <label>Entregar</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-5">
+                 <div class="form-group">
+                  <label for="observacoes">Observações gerais</label>
+                  <div class="input-group">
+                    <div class="input-group-addon">
+                      <i class="fa fa-keyboard-o"></i>
+                    </div>
+                    <input ng-model="vm.os.observacoes" type="text" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="col-xs-7">
+                <div class="form-group">
+                  <label for="pagamento">Marcar como pago</label>
+                  <div class="btn-group center-block">
+                    <label class="btn btn-sm btn-primary active" ng-model="vm.os.pagamento" uib-btn-radio="'Não'">Não</label>
+                    <label class="btn btn-sm btn-primary" ng-model="vm.os.pagamento" uib-btn-radio="'Dinheiro'">Dinheiro</label>
+                    <label class="btn btn-sm btn-primary" ng-model="vm.os.pagamento" uib-btn-radio="'Débito'">Débito</label>
+                    <label class="btn btn-sm btn-primary" ng-model="vm.os.pagamento" uib-btn-radio="'Crédito'">Crédito</label>
+                    <label class="btn btn-sm btn-primary" ng-model="vm.os.pagamento" uib-btn-radio="'Boleto'">Boleto</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <fieldset>
+                  <legend><h5><b>Itens</b></h5></legend>
+                  <div class="row">
+                    <div class="col-xs-3">
+                      <div class="btn-group-vertical">
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.KG)">Roupa a Kg</button>
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.CAMISA)">Camisa Social</button>
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.CALCA)">Calça Social</button>
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.TERNO)">Terno</button>
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.CASACO)">Casaco</button>
+                        <!--button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.VESTIDO)">Vestido Simples</button-->
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.EDREDON)">Edredon</button>
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.COBERTOR)">Cobertor</button>
+                        <button type="button" class="btn btn-sm btn-primary" ng-click="vm.exibirPainel(TipoServicoEnum.OUTROS)">Outros</button>
+                        <!--button type="button" class="btn btn-sm btn-default" ng-click="vm.exibirPainel('mais')"><i class="fa fa-plus"></i> Mais</button-->
+                      </div>
+                    </div>
+                    <div class="col-xs-9">
+                      <div ng-include="vm.painel.url"></div>
+                    </div>
+                  </fieldset>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar OS</button>
+            <button type="button" class="btn btn-primary" ng-class="{'disabled': !form.$valid || vm.os.itens.length == 0}" ng-click="vm.salvarOrdem()">Salvar e gerar OS</button>
+          </div>
+        </div>

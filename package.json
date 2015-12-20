@@ -1,0 +1,24 @@
+{
+  "main": "starter.html",
+  "name": "node-webkit",
+  "version": "0.0.1",
+  "node-main": "app.js",
+  "window": {
+    "title": "MatLAV",
+    "toolbar": true,
+    "frame": true,
+    "width": 800,
+    "height": 600,
+    "min_width": 800,
+    "min_height": 600
+  },
+  "webkit": {
+    "plugin": true
+  },
+  "dependencies": {
+    "nedb": "^1.1.2",
+    "printer": "^0.1.1",
+    "string": "^3.1.1",
+    "q": "^1.4.1"
+  }
+}

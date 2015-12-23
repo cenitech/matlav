@@ -36,7 +36,7 @@ function IncluirOSController($scope, $rootScope, $timeout, $filter) {
     vm.os = new OS();
     vm.painel = new Painel();
 
-    process.mainModule.exports.app.ordem.gerarNumero(function (result) {
+    process.mainModule.exports.app.ordem.gerarNumero(function(result) {
       vm.os.numero = Number(result);
       $scope.$apply();
     });
@@ -54,7 +54,7 @@ function IncluirOSController($scope, $rootScope, $timeout, $filter) {
       vm.painel.url = 'partials/incluirOS-incluirItem.html';
     }
 
-    process.mainModule.exports.app.servico.getServico(tipo, function (result) {
+    process.mainModule.exports.app.servico.getServico(tipo, function(result) {
       if (!edicao) {
         vm.painel.item.descricao = result.descricao;
         vm.painel.item.quantidade = result.quantidade;
@@ -95,7 +95,7 @@ function IncluirOSController($scope, $rootScope, $timeout, $filter) {
     vm.painel.item = angular.copy(item);
     vm.painel.edicao = item;
   }
-  
+
   function excluirItem() {
     var i = vm.os.itens.indexOf(vm.painel.edicao);
     vm.os.itens.splice(i, 1);
@@ -103,7 +103,7 @@ function IncluirOSController($scope, $rootScope, $timeout, $filter) {
     calcularOS();
     vm.painel = new Painel();
   }
-  
+
   function calcularOS() {
     vm.os.totalItens = 0;
     vm.os.totalGeral = 0;
@@ -138,21 +138,21 @@ function IncluirOSController($scope, $rootScope, $timeout, $filter) {
     $('#myModal').modal('hide');
 
     process.mainModule.exports.app.ordem.salvarEGerarOrdem(vm.os)
-    .then(function(value) {
-      process.mainModule.exports.app.ordem.imprimirOS(value.os, value.cliente, data, hora, 'cliente');
-      return value;
-    })
-    .delay(5000)
-    .then(function(value) {
-      process.mainModule.exports.app.ordem.imprimirOS(value.os, value.cliente, data, hora, 'estabelecimento');
-    })
-    .fail(function(reason) {
-      console.log(reason);
-    });
+      .then(function(value) {
+        process.mainModule.exports.app.ordem.imprimirOS(value.os, value.cliente, data, hora, 'cliente');
+        return value;
+      })
+      .delay(5000)
+      .then(function(value) {
+        process.mainModule.exports.app.ordem.imprimirOS(value.os, value.cliente, data, hora, 'estabelecimento');
+      })
+      .fail(function(reason) {
+        console.log(reason);
+      });
   }
 
   function listarTelefones(val) {
-    var unmasked = val.substr(0, val.search(/\d(?!.*\d)/)+1);
+    var unmasked = val.substr(0, val.search(/\d(?!.*\d)/) + 1);
     return process.mainModule.exports.app.ordem.listarTelefones(unmasked);
   }
 
@@ -162,21 +162,21 @@ function IncluirOSController($scope, $rootScope, $timeout, $filter) {
 
   function selecionarTelefone() {
     process.mainModule.exports.app.ordem.buscarClientePorTelefone(vm.os.telefone)
-    .then(function (nome) {
-      if (nome) {
-        vm.os.cliente = nome;
-        $scope.$apply();
-      }
-    });
+      .then(function(nome) {
+        if (nome) {
+          vm.os.cliente = nome;
+          $scope.$apply();
+        }
+      });
   }
 
   function selecionarCliente($item, $model, $label) {
     process.mainModule.exports.app.ordem.buscarClientePorNome(vm.os.cliente)
-    .then(function (cliente) {
-      if (cliente) {
-        vm.os.telefone = cliente.telefone;
-        $scope.$apply();
-      }
-    });
+      .then(function(cliente) {
+        if (cliente) {
+          vm.os.telefone = cliente.telefone;
+          $scope.$apply();
+        }
+      });
   }
 }

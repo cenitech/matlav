@@ -1,57 +1,59 @@
 <table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Quant.</th>
-      <th style="min-width: 180px;">Item</th>
-      <th class="text-right">Valor</th>
-      <th class="text-right">Total</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr ng-show="vm.os.itens.length == 0"><td colspan="4" class="text-center">Nenhum item adicionado.</td></tr>
-    <tr ng-repeat="item in vm.os.itens track by $index" style="cursor: pointer;" ng-click="vm.editarItem(item)">
-      <td>{{item.quantidade | number:3}}</td>
-      <td>{{item.descricao}}</td>
-      <td class="text-right">{{item.preco | currency}}</td>
-      <td class="text-right">{{item.quantidade * item.preco | currency}}</td>
-    </tr>
-  </tbody>
-  <tfoot>
-    <tr>
-      <td colspan="4" class="text-right">
-        <div class="row">
-          <div class="col-xs-9">
-            <small>Itens:</small>
-          </div>
-          <div class="col-xs-3">
-            <b>{{vm.os.totalItens | currency}}</b>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-9">
-            <small>Desconto:</small>
-          </div>
-          <div class="col-xs-3">
-            <b>{{vm.os.desconto | currency}}</b>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-9">
-            <small>Coleta/Entrega:</small>
-          </div>
-          <div class="col-xs-3">
-            <b>{{vm.os.coletaEntrega | currency}}</b>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-xs-9">
-            <h4><b>TOTAL:</b></h4>
-          </div>
-          <div class="col-xs-3">
-            <h4><b>{{vm.os.totalGeral | currency}}</b></h4>
-          </div>
-        </div>
-      </td>
-    </tr>
-  </tfoot>
+    <thead>
+        <tr>
+            <th>Quant.</th>
+            <th style="min-width: 180px;">Item</th>
+            <th class="text-right">Valor</th>
+            <th class="text-right">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-show="vm.os.itens.length == 0">
+            <td colspan="4" class="text-center">Nenhum item adicionado.</td>
+        </tr>
+        <tr ng-repeat="item in vm.os.itens track by $index" style="cursor: pointer;" ng-click="vm.editarItem(item)">
+            <td>{{item.quantidade | number:3}}</td>
+            <td>{{item.descricao}}</td>
+            <td class="text-right">{{item.preco | currency}}</td>
+            <td class="text-right">{{item.quantidade * item.preco | currency}}</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4" class="text-right">
+                <div class="row">
+                    <div class="col-xs-9">
+                        <small>Itens:</small>
+                    </div>
+                    <div class="col-xs-3">
+                        <b>{{vm.os.totalItens | currency}}</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9">
+                        <small>Desconto:</small>
+                    </div>
+                    <div class="col-xs-3">
+                        <b>{{vm.os.desconto | currency}}</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9">
+                        <small>Coleta/Entrega:</small>
+                    </div>
+                    <div class="col-xs-3">
+                        <b>{{vm.os.coletaEntrega | currency}}</b>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9">
+                        <h4><b>TOTAL:</b></h4>
+                    </div>
+                    <div class="col-xs-3">
+                        <h4><b>{{vm.os.totalGeral | currency}}</b></h4>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </tfoot>
 </table>

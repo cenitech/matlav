@@ -4,11 +4,13 @@ function OrdensController($scope, $rootScope, $filter) {
   // métodos
   vm.renderizarOrdens = renderizarOrdens;
   vm.incluirOS = incluirOS;
-  vm.pagina = 1;
 
   // variáveis
   vm.ordens = [];
   vm.soma = 0;
+  vm.pagina = 1;
+  vm.total = 0;
+  vm.somaGeral = 0;
 
   // estáticos
   $scope.$on('$viewContentLoaded', vm.renderizarOrdens);
@@ -20,13 +22,16 @@ function OrdensController($scope, $rootScope, $filter) {
 
   function renderizarOrdens() {
     process.mainModule.exports.app.ordem.listarOrdens(vm.pagina)
-      .then(function(ordens) {
-        vm.ordens = ordens;
-        vm.soma = ordens.map(function(val) {
-          return Number(val.totGeral ? val.totGeral : val.totalGeral);
+      .then(function(result) {
+        vm.ordens = result.ordens;
+        vm.soma = result.ordens.map(function(val) {
+          return Number(val.totalGeral);
         }).reduce(function(a, b) {
           return a + b;
         });
+
+        vm.total = result.total;
+        vm.somaGeral = result.somaGeral;
 
         $scope.$apply();
       });

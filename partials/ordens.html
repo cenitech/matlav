@@ -24,12 +24,12 @@
           <table class="table table-hover">
             <thead>
               <tr>
-                <th>O.S.</th>
-                <th>Data</th>
-                <th>Cliente</th>
-                <th>Telefone</th>
-                <th>Valor</th>
-                <th>Status</th>
+                <th class="col-md-1">O.S.</th>
+                <th class="col-md-1">Data</th>
+                <th class="col-md-4">Cliente</th>
+                <th class="col-md-2">Telefone</th>
+                <th class="col-md-2">Status</th>
+                <th class="col-md-2">Valor</th>
               </tr>
             </thead>
             <tbody>
@@ -41,32 +41,27 @@
                 <td>{{ordem.dataCadastro | date: 'dd/MM/yyyy'}}</td>
                 <td>{{ordem.cliente}}</td>
                 <td>{{ordem.telefone}}</td>
-                <td>{{ordem.totGeral ? ordem.totGeral
- : ordem.totalGeral | currency}}</td>
                 <td>{{ordem.status}}</td>
+                <td>{{ordem.totalGeral | currency}}</td>
               </tr>
             </tbody>
             <tfoot>
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><b>{{vm.soma | currency}}</b></td>
+                <td class="col-md-10" colspan="5"></td>
+                <td class="col-md-2">Total: {{vm.soma | currency}}</td>
+              </tr>
+              <tr>
+                <td class="col-md-10" colspan="5"></td>
+                <td class="col-md-2"><b>Total Geral: {{vm.somaGeral | currency}}</b></td>
               </tr>
             </tfoot>
           </table>
         </div>
         <!-- /.box-body -->
         <div class="box-footer clearfix">
-          <ul class="pagination pagination-sm no-margin pull-right">
-            <li style="cursor: pointer;" ng-click="vm.pagina = vm.pagina - 1"><a>«</a></li>
-            <li style="cursor: pointer;" ng-click="vm.pagina = 1"><a>1</a></li>
-            <li style="cursor: pointer;" ng-click="vm.pagina = 2"><a>2</a></li>
-            <li style="cursor: pointer;" ng-click="vm.pagina = 3"><a>3</a></li>
-            <li style="cursor: pointer;" ng-click="vm.pagina = vm.pagina + 1"><a>»</a></li>
-          </ul>
+          <div class="pull-right">
+            <uib-pagination ng-model="vm.pagina" total-items="vm.total" previous-text="«" next-text="»" max-size="10" rotate="false"></uib-pagination>
+          </div>
         </div>
       </div>
       <!-- /.box -->

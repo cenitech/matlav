@@ -339,47 +339,71 @@ via {via}             \n\n\n\n\n\n";
 
       },
       listarOrdens: function(pagina) {
-        var deferred = Q.defer();
 
-        app.ordens
-          .find()
-          .sort({
-            numero: -1
+        return Q.nfcall(app.ordens.count.bind(app.ordens), {})
+          .then(function(count) {
+            var deferred = Q.defer();
+
+            app.ordens
+              .find()
+              .sort({
+                numero: -1
+              })
+              .skip(pagina ? (pagina - 1) * 10 : 0)
+              .limit(10)
+              .exec(function(err, ordens) {
+                var result = {
+                  total: count,
+                  ordens: ordens
+                };
+                deferred.resolve(result);
+              });
+
+            return deferred.promise;
           })
-          .skip(pagina ? (pagina - 1) * 12 : 0)
-          .limit(12)
-          .exec(function(err, ordens) {
-            deferred.resolve(ordens);
-          });
-
-        return deferred.promise.then(function(ordens) {
-          var idsClientes = ordens.map(function(obj) {
-            return obj.cliente;
-          });
-          idsClientes = idsClientes.filter(function(v, i) {
-            return idsClientes.indexOf(v) == i;
-          });
-
-          var deferred2 = Q.defer();
-          app.clientes.find({
-            _id: {
-              $in: idsClientes
-            }
-          }, function(err, clientes) {
-            var ids = clientes.map(function(value) {
-              return value._id;
+          .then(function(result) {
+            var idsClientes = result.ordens.map(function(obj) {
+              return obj.cliente;
+            }).filter(function(v, i, list) {
+              return list.indexOf(v) == i;
             });
-            for (i in ordens) {
-              var cliente = clientes[ids.indexOf(ordens[i].cliente)];
 
-              ordens[i].cliente = cliente.nome;
-              ordens[i].telefone = cliente.telefone;
-            }
+            var deferred2 = Q.defer();
+            app.clientes.find({
+              _id: {
+                $in: idsClientes
+              }
+            }, function(err, clientes) {
+              var ids = clientes.map(function(value) {
+                return value._id;
+              });
+              for (i in result.ordens) {
+                var cliente = clientes[ids.indexOf(result.ordens[i].cliente)];
 
-            deferred2.resolve(ordens);
+                result.ordens[i].cliente = cliente.nome;
+                result.ordens[i].telefone = cliente.telefone;
+              }
+
+              deferred2.resolve(result);
+            });
+            return deferred2.promise;
+          })
+          .then(function(result) {
+            var deferred3 = Q.defer();
+            app.ordens.find({}, {
+              totalGeral: 1
+            }, function(err, docs) {
+              result.somaGeral = 0;
+              result.somaGeral += docs.map(function(doc) {
+                return Number(doc.totalGeral);
+              }).reduce(function(a, b) {
+                return a + b;
+              });
+
+              deferred3.resolve(result);
+            });
+            return deferred3.promise;
           });
-          return deferred2.promise;
-        });
       },
       listarTelefones: function(val) {
         var deferred = Q.defer();
